@@ -1,7 +1,11 @@
 import express from 'express'
 import Song from '../models/Song'
 
+const bodyParser = require('body-parser')
+
 const router = express.Router()
+router.use(bodyParser.json());
+router.use(bodyParser.urlencoded({ extended: true }));
 
 //Rutas ----------------------------------------------------
 
@@ -14,11 +18,27 @@ router.get('/', async(req, res, next) => {
 })
 
 //Añadir canción
-router.post('/', (req, res, next) => {
+router.post('/', async(req, res, next) => {
     console.log('Body recibido', req.body)
+
+    //Se manda en Postman como raw -> json
+    const newSong = new Song({
+      id: req.body.id,
+      title: req.body.title,
+      author: req.body.author,
+      release_date: req.body.release_date,
+      vote_average: req.body.vote_average,
+      vote_count: req.body.vote_count,
+      original_language: req.body.original_language,
+      genre: req.body.genre,
+      album: req.body.album,
+      duration: req.body.duration,
+    })
+    await newSong.save()
+  
     res
     .status(201)
-    .json(req.body)
+    .json(newSong)
 })
 
 //Canción por título

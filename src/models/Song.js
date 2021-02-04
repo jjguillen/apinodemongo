@@ -2,7 +2,6 @@ const mongoose = require("mongoose")
 
 const songSchema = new mongoose.Schema(
   {
-    _id: mongoose.Schema.Types.ObjectId,
     id: { type: Number, required: true },
     title: { type: String, trim: true, required: true},
     author: { type: String, trim:true, required: true},
@@ -15,7 +14,8 @@ const songSchema = new mongoose.Schema(
     duration: { type: String, trim:true},
   }, 
   {
-    strict: false
+    strict: false,
+    versionKey: false
   }
 )
 
